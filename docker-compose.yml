@@ -1,0 +1,61 @@
+services:
+  app-cluster-0:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ID=0
+    volumes:
+      - ./:/usr/src/app
+    depends_on:
+      - postgres-master
+  app-cluster-1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3002:3001"
+    environment:
+      - NODE_ID=1
+    volumes:
+      - ./:/usr/src/app
+    depends_on:
+      - postgres-master
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - app-cluster-0
+      - app-cluster-1
+  postgres-master:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydb
+    volumes:
+      - pgdata-master:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  postgres-replica:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydb
+    volumes:
+      - pgdata-replica:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    depends_on:
+      - postgres-master
+
+volumes:
+  pgdata-master:
+  pgdata-replica:
