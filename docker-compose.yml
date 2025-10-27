@@ -1,7 +1,7 @@
 services:
   app-cluster-0:
     build:
-      context: .
+      context: app-node/
       dockerfile: Dockerfile
     ports:
       - "3001:3001"
@@ -13,7 +13,7 @@ services:
       - postgres-master
   app-cluster-1:
     build:
-      context: .
+      context: app-node/
       dockerfile: Dockerfile
     ports:
       - "3002:3001"
