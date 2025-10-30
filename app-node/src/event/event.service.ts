@@ -1,12 +1,12 @@
+import { randomUUID } from 'node:crypto';
 import { Injectable } from '@nestjs/common';
 import { CreateEventDto } from './dto/create-event.dto';
 import { EventRepository } from './repositories/event.repository';
-import { randomUUID } from 'node:crypto';
 
 @Injectable()
 export class EventService {
   constructor(private readonly eventRepository: EventRepository) {}
-  create(createEventDto: CreateEventDto) {
+  async create(createEventDto: CreateEventDto) {
     const event = this.eventRepository.create({
       author: createEventDto.author,
       date: new Date(),
