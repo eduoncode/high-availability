@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { CacheInterceptor } from '@nestjs/cache-manager';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ApiBody } from '@nestjs/swagger';
 import { CreateEventDto } from './dto/create-event.dto';
 import { EventService } from './event.service';
@@ -29,6 +37,7 @@ export class EventController {
     return this.eventService.create(createEventDto);
   }
 
+  @UseInterceptors(CacheInterceptor)
   @Get()
   findAll() {
     return this.eventService.findAll();

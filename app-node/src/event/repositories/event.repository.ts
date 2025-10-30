@@ -9,7 +9,6 @@ export class EventRepository {
     @InjectRepository(EventEntity)
     private readonly eventRepository: Repository<EventEntity>,
   ) {}
-  private events: EventEntity[] = [];
 
   async create(event: EventEntity): Promise<EventEntity> {
     const eventInstance = this.eventRepository.create(event);
@@ -17,11 +16,11 @@ export class EventRepository {
     return eventInstance;
   }
 
-  findAll(): EventEntity[] {
-    return this.events;
+  async findAll(): Promise<EventEntity[]> {
+    return this.eventRepository.find();
   }
 
-  findById(id: string): EventEntity | undefined {
-    return this.events.find((event) => event.id === id);
+  async findById(id: string): Promise<EventEntity | null> {
+    return this.eventRepository.findOneBy({ id });
   }
 }
