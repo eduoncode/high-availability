@@ -70,7 +70,7 @@ services:
     image: postgres:13
     environment:
       POSTGRES_USER: admindb
-      POSTGRES_PASSWORD: "master@Password12345"
+      POSTGRES_PASSWORD: master@Password12345
       POSTGRES_DB: master-db
     command: postgres -c 'config_file=/etc/postgresql/postgresql.conf'
     volumes:
@@ -82,7 +82,7 @@ services:
     image: postgres:13
     environment:
       POSTGRES_USER: admindb
-      POSTGRES_PASSWORD: "replica@Password12345"
+      POSTGRES_PASSWORD: replica@Password12345
       POSTGRES_DB: replica-db
     volumes:
       - pgdata-replica:/var/lib/postgresql/data
