@@ -16,9 +16,8 @@ export class RequestInterceptor {
     const request: Request = context.switchToHttp().getRequest();
     const { method, url, body, ip } = request;
     const forwardedIp = request.headers['x-forwarded-for'];
-    if (forwardedIp) {
-      this.logger.log(`Forwarded IP: ${forwardedIp}`);
-    }
+    if (forwardedIp) this.logger.log(`Forwarded IP: ${forwardedIp}`);
+
     this.logger.log(`Incoming request from IP: ${ip}`);
     this.logger.log(
       `Method: ${method}, URL: ${url}, Body: ${JSON.stringify(body) ?? 'N/A'}, Headers: ${JSON.stringify(request.headers, null, 2)}`,
